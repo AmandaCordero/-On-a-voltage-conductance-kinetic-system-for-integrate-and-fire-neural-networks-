@@ -1,0 +1,129 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage{latexsym,amssymb,enumerate,amsmath,epsfig,amsthm}
+\usepackage[margin=1in]{geometry}
+\usepackage{setspace,color}
+\usepackage{parskip}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage[english]{babel}
+\usepackage[table,xcdraw]{xcolor}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{url}
+\usepackage{array}
+\usepackage[toc,page]{appendix}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+\tikzstyle{block} = [rectangle, draw, text width=7.5em, text centered, rounded corners,node distance=4cm, minimum height=4em]
+\tikzstyle{line} = [draw, -latex']
+
+\newtheorem{eg}{Example}[section]
+\newcommand{\ds}{\displaystyle}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\hypersetup{
+	colorlinks,
+	linkcolor={red!50!black},
+	citecolor={blue!50!black},
+	urlcolor={blue!80!black}
+}
+
+\begin{document}
+\title{Simulación de una cola en una biblioteca}
+\author{
+	Amanda Cordero Lezcano, Facultad de Matemática y Computación, Universidad de La Habana\\
+	Ernesto Alejandro Lopez Cadalso, Facultad de Matemática y Computación, Universidad de La Habana\\
+	%\thanks{MATH 4336 - Introduction to Mathematics of Image Processing, %Instructor: {\textit{Prof. Shingyu LEUNG}}, Teaching Assistant: %{\textit{Mr. Ka Wah WONG}}}
+}
+\markboth{Homer Lee}{SSW Application}
+
+\twocolumn[
+	\begin{@twocolumnfalse}
+		\maketitle
+		\begin{abstract}
+			in progress
+		\end{abstract}
+		\vspace{1cm}
+	\end{@twocolumnfalse}
+]
+
+
+
+
+\section{Introducción}
+El artículo "On a Voltage-Conductance Kinetic System for Integrate and Fire Neural Networks" de Benoît Perthame y Delphine Salort se centra en un modelo cinético que describe la dinámica de redes neuronales del tipo "integra y dispara". Este modelo es relevante en neurociencia, especialmente en el estudio de la corteza visual, y se basa en la ecuación de Fokker-Planck para describir la densidad de probabilidad de neuronas con diferentes potenciales de membrana y conductancias. La investigación aborda propiedades matemáticas del modelo, incluyendo la existencia y unicidad de soluciones, así como la estabilidad de estados estacionarios.
+
+\subsection{Estado del Arte}
+Los modelos de "integra y dispara" han sido ampliamente estudiados en el contexto de redes neuronales. Investigaciones anteriores han utilizado ecuaciones diferenciales para modelar el comportamiento neuronal, como los modelos de Hodgkin-Huxley y FitzHugh-Nagumo. Sin embargo, el enfoque cinético propuesto por Perthame y Salort introduce una dimensión adicional al considerar tanto el voltaje como la conductancia en un marco probabilístico. Este enfoque ha sido menos explorado teóricamente, lo que resalta la novedad del trabajo presentado.
+
+\section{Estudio del modelo}
+\subsection{Interpretacion biologica}
+El modelo cinético propuesto describe cómo las neuronas responden a estímulos externos a través de cambios en su potencial de membrana y conductancia. La interacción entre el voltaje y la conductancia es crucial: el voltaje determina si una neurona alcanzará el umbral para disparar, mientras que la conductancia afecta la rapidez con que se producen estos cambios. Este ciclo dinámico es fundamental para entender cómo las neuronas se comunican dentro de una red.
+
+\subsection{Ecuacion sin interacciones}
+Si las neuronas no interactuaran, la ecuación cinética se simplificaría a un sistema donde cada neurona se comporta independientemente. En este caso, podríamos describir el comportamiento de una única neurona mediante una ecuación diferencial ordinaria que solo considere su potencial:
+\begin{equation}
+	\frac{dV}{dt} = -g_L V + I_{ext}
+\end{equation}
+donde $I_{ext}$ representa una corriente externa constante.
+
+\subsection{Modelo con Neuronas Excitadoras e Inhibidoras}
+Para incluir tanto neuronas excitadoras como inhibidoras, podemos modificar el modelo original para incorporar un término que represente la inhibición. La nueva ecuación podría ser:
+\begin{equation}
+	\frac{\partial}{\partial t} p(v, g, t) + \frac{\partial}{\partial v} \left[ -g_L v + g(V_E - v) - g_I (V_I - v) \right] p(v, g, t) = 0
+\end{equation}
+donde $G_{I}$ representa la conductancia inhibidora y $V_{I}$ es el potencial de reversión inhibitorio.
+
+\subsection{Comportamiento de una neurona en el sistema}
+El comportamiento de una neurona en este sistema podría describirse mediante una ecuación que combine ambos tipos de conductancias:
+\begin{equation}
+	\frac{dV}{dt} = -g_L V + g_E (V_E - V) - g_I (V_I - V)
+\end{equation}
+Este modelo permite analizar cómo las interacciones excitadoras e inhibitoras afectan la actividad neuronal.
+
+\section{Simulaciones numericas}
+Las simulaciones numéricas se llevarán a cabo utilizando software como Python o MATLAB para explorar cómo los diferentes parámetros del modelo afectan el comportamiento neuronal. Se prestará especial atención a:
+
+\begin{itemize}
+    \item Efecto del Umbral: Cómo varía la tasa de disparo al cambiar $V_F$.
+	\item Conductancias: El impacto de diferentes valores para $g_{L}$, $g_{E}$, y $g_{I}$.
+	\item Ruido Sináptico: Cómo influye $a(t)$ en la estabilidad del sistema.
+\end{itemize}
+Los resultados interesantes observados durante las simulaciones se documentarán e interpretarán para proporcionar una comprensión más profunda del modelo.
+
+\section{Resultados Teoricos}
+En esta sección se explorarán los resultados teóricos derivados del modelo propuesto. Se analizarán:
+\begin{itemize}
+    \item Existencia y Unicidad: Se demostrará que existen soluciones positivas para el modelo bajo ciertas condiciones iniciales.
+    \item Estabilidad: Se estudiarán los estados estacionarios y su estabilidad bajo variaciones en los parámetros.
+    \item Propagación de Momentos: Se establecerán límites a priori que aseguren que la solución permanece acotada durante su evolución temporal.
+\end{itemize}
+Estos resultados son cruciales para validar teóricamente el modelo cinético propuesto y su comparación con modelos más simples.
+
+
+
+\section{Discusion y Conclusiones}
+En conclusión, este estudio proporciona un marco robusto para entender las dinámicas neuronales mediante un enfoque cinético. Las interacciones entre neuronas excitadoras e inhibitoras ofrecen un campo fértil para futuras investigaciones. Se sugieren trabajos futuros que podrían incluir:
+
+    Extensiones del modelo para incluir más tipos de neuronas.
+    Análisis más detallados sobre cómo las redes neuronales pueden adaptarse a diferentes condiciones ambientales.
+
+
+
+\begin{thebibliography}{9}
+	
+	\bibitem{teoria_de_colas}
+	García Sabater, J. P. (2015). \textit{Teoría de Colas: Aplicando Teoría de Colas en Dirección de Operaciones}. Grupo ROGLE, Departamento de Organización de Empresas, Universidad Politécnica de Valencia.
+	\bibitem{modern_operating_systems}
+	Tanenbaum, A. S., \& Bos, H. (2014). \textit{Modern Operating Systems} (4th ed.). Vrije Universiteit, Amsterdam, The Netherlands.
+	
+	
+\end{thebibliography}
+
+
+\end{document}
